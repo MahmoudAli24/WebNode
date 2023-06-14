@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+  </head>
+  <body>
+    <table id="train-table">
+      <tr>
+        <th>TrainNum</th>
+        <th>Time</th>
+        <th>Location</th>
+      </tr>
+      <tr>
+        <td>123456778</td>
+        <td>10:00 AM</td>
+        <td>New York</td>
+      </tr>
+      <tr>
+        <td>456</td>
+        <td>12:30 PM</td>
+        <td>Chicago</td>
+      </tr>
+      <tr>
+        <td>789</td>
+        <td>03:45 PM</td>
+        <td>Los Angeles</td>
+      </tr>
+    </table>
+
+    <script>
+      // إعداد تكوين Firebase الخاص بك
+      var firebaseConfig = {
+        apiKey: "AIzaSyDdAg2b_JRnU1f43lj_mh4dQbtHFplyITc",
+        authDomain: "nodemcu8266-115cf.firebaseapp.com",
+        databaseURL:
+          "https://nodemcu8266-115cf-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "nodemcu8266-115cf",
+        storageBucket: "nodemcu8266-115cf.appspot.com",
+        messagingSenderId: "483793365710",
+        appId: "1:483793365710:web:fd81c6f29825a66acc7e9f",
+      };
+
+      // تهيئة التطبيق باستخدام تكوين Firebase الخاص بك
+      firebase.initializeApp(firebaseConfig);
+
+      // الحصول على مرجع لقاعدة البيانات
+      var database = firebase.database();
+
+      // تحديث البيانات في Firebase Realtime Database
+      function updateData(trainNum, time, location) {
+        database.ref("trains/" + trainNum).set({
+          time: time,
+          location: location,
+        });
+      }
+
+      // استدعاء الدالة updateData() عند الضغط على زر "تحديث"
+      document
+        .getElementById("update-button")
+        .addEventListener("click", function () {
+          var trainNum = document.getElementById("trainNum-input").value;
+          var time = document.getElementById("time-input").value;
+          var location = document.getElementById("location-input").value;
+
+          updateData(trainNum, time, location);
+        });
+    </script>
+  </body>
+</html>
